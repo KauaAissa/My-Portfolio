@@ -1,0 +1,135 @@
+{
+  "nav": {
+    "work": "Work",
+    "metrics": "Results",
+    "about": "About",
+    "contact": "Contact",
+    "cta": "Let's talk"
+  },
+  "hero": {
+    "availability": "Available for new projects",
+    "titleLine1": "Systems and automations",
+    "titleLine2": "that move business.",
+    "subtitle": "I'm Kauã Aissa, a Full Stack & Automation Developer. I build scalable web applications and automations (Python/RPA) that cut costs and eliminate manual work - from concept to deploy.",
+    "primaryCta": "View projects",
+    "secondaryCta": "GitHub",
+    "scroll": "Scroll to explore"
+  },
+  "about": {
+    "eyebrow": "About",
+    "title": "Hi, I'm Kauã Aissa.",
+    "role": "Developer Full Stack | Automation",
+    "paragraphs": [
+      "Full Stack & Automation Developer with 2 years of experience in large corporate environments. Currently at the Pague Menos supermarket chain, I work across the full software lifecycle - from concept and requirements gathering to deployment and support.",
+      "I operate on two main fronts: modern, scalable web systems focused on user experience; and operational efficiency, with scripts (Python/Selenium) and process automations (RPA) that deliver drastic cost reduction and performance gains.",
+      "Analytical and systemic profile, focused on the agile mitigation of incidents under pressure and the continuous improvement of legacy systems. I also provide Service Desk support. Graduate of the P-TECH/AMS program (IBM and Centro Paula Souza partnership) and currently deepening my studies in intelligent agents and AI."
+    ],
+    "skillsTitle": "Skills",
+    "skills": [
+      {
+        "group": "Frontend",
+        "items": ["React", "TypeScript", "JavaScript", "HTML5", "CSS3", "Figma"]
+      },
+      {
+        "group": "Backend & Legacy",
+        "items": ["Node.js", "NestJS", "Next.js", "Python", "PHP", "Laravel"]
+      },
+      {
+        "group": "Databases",
+        "items": ["Oracle", "PostgreSQL", "MySQL", "MariaDB", "MongoDB"]
+      },
+      {
+        "group": "Tools",
+        "items": ["Git/GitHub", "Jira", "Service Desk", "Documentation"]
+      }
+    ],
+    "languagesTitle": "Languages",
+    "languages": ["Portuguese - Native", "English - Advanced/Fluent"]
+  },
+  "metrics": {
+    "eyebrow": "Impact",
+    "title": "Results that speak for themselves.",
+    "subtitle": "Focused on quality, security and results in every delivery.",
+    "items": [
+      {
+        "value": "20+",
+        "label": "Systems & automations",
+        "description": "Delivered with a focus on quality and results."
+      },
+      {
+        "value": "2",
+        "label": "Years of experience",
+        "description": "In large corporate environments."
+      },
+      {
+        "value": "100%",
+        "label": "Full lifecycle",
+        "description": "From concept and requirements to deploy and support."
+      },
+      {
+        "value": "24/7",
+        "label": "Support & sustaining",
+        "description": "Agile incident mitigation and continuous improvement."
+      }
+    ]
+  },
+  "projects": {
+    "eyebrow": "Selected work",
+    "title": "Featured projects.",
+    "subtitle": "A selection of systems and automations focused on real impact.",
+    "viewProject": "View project",
+    "viewProfile": "See more about me",
+    "items": [
+      {
+        "name": "NeoCognix Lab",
+        "category": "Front-end · Immersive UI",
+        "description": "Interactive portal simulating the control panel of an advanced research laboratory. Interface inspired by sci-fi HUDs, combining glassmorphism, neon glow, animated particles and fluid transitions, presenting four fictional technologies with simulation modules.",
+        "tags": ["React", "UI/UX", "Glassmorphism", "Animations"],
+        "url": "https://github.com/KauaAissa/neocognix-lab"
+      },
+      {
+        "name": "SEFAZ NF-e",
+        "category": "Fiscal Automation · Freelance",
+        "description": "Integration with SEFAZ web services for distribution (NFeDistribuicaoDFe) and protocol query (NFeConsultaProtocolo4) of electronic invoices, with authentication via A1 digital certificate in PEM format. A real project delivered as freelance work.",
+        "tags": ["Python", "SEFAZ", "A1 Certificate", "SOAP"],
+        "url": "https://github.com/KauaAissa/sefaz-nfe-distribuicao"
+      },
+      {
+        "name": "Culinary AI Chat",
+        "category": "AI · Web Chat",
+        "description": "AI web chat built with Node.js + Express integrated with the OpenAI API. Configured as a Culinary Mentor: suggests recipes, ingredient substitutions, cooking tips and flavor pairing, with a warm, rustic home-kitchen look.",
+        "tags": ["Node.js", "Express", "OpenAI", "JavaScript"],
+        "url": "https://github.com/KauaAissa/culinary-ai-chat"
+      },
+      {
+        "name": "WhatsApp AI Chatbot",
+        "category": "AI · Chatbot",
+        "description": "Intelligent WhatsApp chatbot built with Python + Flask, integrated with the OpenAI API and the WhatsApp Cloud API (Meta), replying to messages automatically and contextually.",
+        "tags": ["Python", "Flask", "OpenAI", "WhatsApp API"],
+        "url": "https://github.com/KauaAissa/whatsapp-ai-chatbot"
+      },
+      {
+        "name": "Windows Non-Admin Launcher",
+        "category": "Security · Scripting",
+        "description": "Security-focused .bat script that uses the Windows RunAsInvoker variable to run programs in compatibility mode, ignoring manifests that require administrator privileges without inheriting the parent process permissions.",
+        "tags": ["Batch", "Windows", "Security"],
+        "url": "https://github.com/KauaAissa/windows-non-admin-launcher"
+      },
+      {
+        "name": "+20 Systems & Automations",
+        "category": "Professional Experience",
+        "description": "Working in a corporate environment, I have delivered more than 20 systems and automations focused on quality and results. Due to confidentiality, the specific projects cannot be disclosed publicly.",
+        "tags": ["Full Stack", "RPA", "Sustaining", "Service Desk"],
+        "url": "https://www.linkedin.com/in/kauaaissa/"
+      }
+    ]
+  },
+  "footer": {
+    "title": "Let's build something exceptional.",
+    "subtitle": "Open for freelance projects and full-time opportunities.",
+    "cta": "Start a project",
+    "email": "kaua.aissa.dev@gmail.com",
+    "nav": "Navigation",
+    "social": "Social"
+  }
+}
