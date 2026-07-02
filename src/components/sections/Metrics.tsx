@@ -19,7 +19,7 @@ export function Metrics({ dict }: { dict: Dictionary["metrics"] }) {
     <section
       id="metrics"
       ref={ref}
-      className="relative mx-auto w-full max-w-6xl px-6 py-32 md:py-44"
+      className="relative mx-auto w-full max-w-6xl px-6 py-24 md:py-44"
       style={{ perspective: 1200 }}
     >
       <motion.div

@@ -13,7 +13,7 @@ export function About({ dict }: { dict: Dictionary["about"] }) {
   return (
     <section
       id="about"
-      className="relative mx-auto w-full max-w-6xl px-6 py-32 md:py-44"
+      className="relative mx-auto w-full max-w-6xl px-6 py-24 md:py-44"
     >
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16">
         {/* Portrait - floating glass card */}

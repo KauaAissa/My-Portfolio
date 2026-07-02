@@ -2,8 +2,13 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useMotionValueEvent,
+} from "framer-motion";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/types/dictionary";
@@ -14,6 +19,8 @@ import { ThemeToggle } from "./ThemeToggle";
 import { LanguageToggle } from "./LanguageToggle";
 import logo from "@/assets/img/blackcat-logo.png";
 
+const MENU_EASE = [0.16, 1, 0.3, 1] as const;
+
 export function Navbar({
   dict,
   lang,
@@ -23,10 +30,19 @@ export function Navbar({
 }) {
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = React.useState(false);
+  const [menuOpen, setMenuOpen] = React.useState(false);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setScrolled(latest > 24);
   });
+
+  // Lock body scroll while the mobile menu is open.
+  React.useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [menuOpen]);
 
   const links = [
     { href: "#about", label: dict.about },
@@ -45,7 +61,7 @@ export function Navbar({
       <nav
         className={cn(
           "flex w-full max-w-5xl items-center justify-between rounded-full border px-3 py-2 transition-all duration-500",
-          scrolled
+          scrolled || menuOpen
             ? "glass border-border shadow-[0_8px_40px_-12px_rgba(0,0,0,0.3)]"
             : "border-transparent bg-transparent",
         )}
@@ -87,8 +103,57 @@ export function Navbar({
               <ArrowUpRight className="size-4" />
             </a>
           </Button>
+
+          {/* Mobile menu trigger */}
+          <button
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-foreground transition-colors hover:bg-foreground/5 md:hidden"
+          >
+            {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+          </button>
         </div>
       </nav>
+
+      {/* Mobile menu overlay */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.35, ease: MENU_EASE }}
+            className="glass absolute inset-x-4 top-[76px] z-40 flex flex-col gap-2 rounded-3xl border border-border p-4 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)] md:hidden"
+          >
+            {links.map((link, i) => (
+              <motion.a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.05 + i * 0.05, ease: MENU_EASE }}
+                className="rounded-2xl px-4 py-3 text-base font-medium text-foreground/80 transition-colors hover:bg-foreground/5 hover:text-foreground"
+              >
+                {link.label}
+              </motion.a>
+            ))}
+
+            <div className="mt-2 flex items-center justify-between gap-3 border-t border-border pt-4">
+              <LanguageToggle currentLang={lang} />
+              <Button size="sm" asChild>
+                <a href="#contact" onClick={() => setMenuOpen(false)}>
+                  {dict.cta}
+                  <ArrowUpRight className="size-4" />
+                </a>
+              </Button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }

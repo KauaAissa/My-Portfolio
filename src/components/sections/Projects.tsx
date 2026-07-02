@@ -33,7 +33,7 @@ export function Projects({ dict }: { dict: Dictionary["projects"] }) {
   return (
     <section
       id="work"
-      className="relative mx-auto w-full max-w-6xl px-6 py-32 md:py-44"
+      className="relative mx-auto w-full max-w-6xl px-6 py-24 md:py-44"
     >
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -229,7 +229,7 @@ function ExpandedSlat({
       <motion.div
         layoutId={`slat-${project.name}`}
         style={{ background: SLAT_SURFACE }}
-        className="relative z-10 w-full max-w-2xl overflow-hidden rounded-[28px] border border-white/10 p-10 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]"
+        className="relative z-10 max-h-[90vh] w-full max-w-2xl overflow-y-auto overflow-x-hidden rounded-[28px] border border-white/10 p-6 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)] sm:p-10"
       >
         <button
           type="button"

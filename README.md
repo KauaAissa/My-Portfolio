@@ -6,6 +6,9 @@
 
 Portfólio pessoal premium construído com Next.js, animações cinematográficas e uma cena 3D interativa. Bilíngue (🇧🇷 PT / 🇺🇸 EN), com tema claro/escuro e design inspirado no padrão Awwwards.
 
+### [→ Ver ao vivo (aissadev.vercel.app)](https://aissadev.vercel.app/pt)
+
+[![Live Demo](https://img.shields.io/badge/Live_Demo-aissadev.vercel.app-000000?logo=vercel&logoColor=white)](https://aissadev.vercel.app/pt)
 [![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)](https://nextjs.org)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -94,22 +97,27 @@ Para adicionar ou editar textos, ajuste os arquivos em [`src/dictionaries`](src/
 
 ## ☁️ Deploy
 
-O projeto é otimizado para deploy na [Vercel](https://vercel.com/new):
+O projeto está hospedado na [Vercel](https://vercel.com) e disponível em produção:
+
+> **🌐 [aissadev.vercel.app](https://aissadev.vercel.app/pt)**
+
+Para publicar sua própria versão:
 
 1. Faça o push do repositório para o GitHub.
-2. Importe o projeto na Vercel.
+2. Importe o projeto na [Vercel](https://vercel.com/new).
 3. O build roda automaticamente com o script `build`.
 
 Também é compatível com qualquer plataforma que suporte Next.js (Node runtime).
 
-## 📫 Contato
+---
+
+### Autor
+
+Desenvolvido por **Kauã Aissa**
+<img src="src/assets/img/blackcat-logo.png" alt="Logo Gato Preto" width="120" align="right" />
 
 - **GitHub:** [KauaAissa](https://github.com/KauaAissa)
 - **LinkedIn:** [kauaaissa](https://www.linkedin.com/in/kauaaissa/)
 - **E-mail:** kaua.aissa.dev@gmail.com
 
 ---
-
-<div align="center">
-<sub>© Kauã Aissa — Todos os direitos reservados.</sub>
-</div>

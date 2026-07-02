@@ -20,7 +20,7 @@ export function SphereStage({ scene }: { scene?: string }) {
       <DynamicStageModel
         scene={scene}
         scrollProgress={progress}
-        className="max-w-[620px]"
+        className="max-w-[360px] sm:max-w-[480px] lg:max-w-[620px]"
         // DEFAULT_CALIBRATION is already tuned for the purple particle sphere.
         // Override per-field here if needed, e.g.:
         // calibration={{ modelScale: 1.3, offsetX: 40 }}

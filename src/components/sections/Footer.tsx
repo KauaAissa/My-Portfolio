@@ -34,7 +34,7 @@ export function Footer({
   return (
     <footer
       id="contact"
-      className="relative mx-auto w-full max-w-6xl px-6 pb-12 pt-32 md:pt-44"
+      className="relative mx-auto w-full max-w-6xl px-6 pb-12 pt-24 md:pt-44"
     >
       {/* CTA */}
       <motion.div
