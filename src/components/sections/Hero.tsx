@@ -83,7 +83,7 @@ export function Hero({ dict }: { dict: Dictionary["hero"] }) {
       {/* Scroll hint */}
       <motion.div
         style={{ opacity: scrollHintOpacity }}
-        className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-muted"
+        className="absolute bottom-8 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 text-muted [@media(max-height:760px)]:hidden"
       >
         <span className="text-[11px] uppercase tracking-[0.2em]">
           {dict.scroll}

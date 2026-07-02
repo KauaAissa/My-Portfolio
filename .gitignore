@@ -56,3 +56,6 @@ Desktop.ini
 # cache
 .turbo
 .cache/
+
+# sensitive / internal notes (never commit)
+changes.md

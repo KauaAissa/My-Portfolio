@@ -26,7 +26,7 @@ export async function generateMetadata({
   const dict = await getDictionary(locale);
 
   return {
-    title: `${dict.hero.titleLine1} ${dict.hero.titleLine2}`,
+    title: "Aissa",
     description: dict.hero.subtitle,
   };
 }
