@@ -98,7 +98,7 @@ export function Navbar({
           <LanguageToggle currentLang={lang} className="hidden sm:flex" />
           <ThemeToggle />
           <Button size="sm" className="hidden sm:inline-flex" asChild>
-            <a href="#contact">
+            <a href={`mailto:${SITE.email}`}>
               {dict.cta}
               <ArrowUpRight className="size-4" />
             </a>
@@ -145,7 +145,7 @@ export function Navbar({
             <div className="mt-2 flex items-center justify-between gap-3 border-t border-border pt-4">
               <LanguageToggle currentLang={lang} />
               <Button size="sm" asChild>
-                <a href="#contact" onClick={() => setMenuOpen(false)}>
+                <a href={`mailto:${SITE.email}`} onClick={() => setMenuOpen(false)}>
                   {dict.cta}
                   <ArrowUpRight className="size-4" />
                 </a>
