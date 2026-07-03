@@ -48,7 +48,7 @@ export function Projects({ dict }: { dict: Dictionary["projects"] }) {
         <h2 className="mt-4 text-4xl font-black tracking-tighter sm:text-5xl">
           {dict.title}
         </h2>
-        <p className="mt-4 text-muted">{dict.subtitle}</p>
+        <p className="mt-4 leading-relaxed text-muted">{dict.subtitle}</p>
       </motion.div>
 
       {/* Perspective viewport for the 3D slats */}
@@ -104,11 +104,21 @@ function ProjectSlat({
 }) {
   const ref = React.useRef<HTMLButtonElement>(null);
 
-  // Raw tilt targets, smoothed by springs for a magnetic feel.
+  // Raw tilt targets, smoothed by springs for a magnetic feel. High
+  // stiffness + low mass keeps the card glued to the cursor with no visible
+  // lag, while damping keeps the settle organic instead of rubbery.
   const rotateXRaw = useMotionValue(0);
   const rotateYRaw = useMotionValue(0);
-  const rotateX = useSpring(rotateXRaw, { stiffness: 180, damping: 20 });
-  const rotateY = useSpring(rotateYRaw, { stiffness: 180, damping: 20 });
+  const rotateX = useSpring(rotateXRaw, {
+    stiffness: 320,
+    damping: 28,
+    mass: 0.6,
+  });
+  const rotateY = useSpring(rotateYRaw, {
+    stiffness: 320,
+    damping: 28,
+    mass: 0.6,
+  });
 
   const handleMove = (e: React.MouseEvent<HTMLButtonElement>) => {
     const el = ref.current;
@@ -116,8 +126,8 @@ function ProjectSlat({
     const rect = el.getBoundingClientRect();
     const px = (e.clientX - rect.left) / rect.width;
     const py = (e.clientY - rect.top) / rect.height;
-    rotateYRaw.set((px - 0.5) * 10);
-    rotateXRaw.set(-(py - 0.5) * 10);
+    rotateYRaw.set((px - 0.5) * 8);
+    rotateXRaw.set(-(py - 0.5) * 8);
   };
 
   const handleLeave = () => {
@@ -181,7 +191,7 @@ function ProjectSlat({
           <h3 className="text-2xl font-bold tracking-tighter text-white sm:text-3xl">
             {project.name}
           </h3>
-          <p className="max-w-sm text-pretty text-sm text-white/60">
+          <p className="max-w-sm text-pretty text-sm leading-relaxed text-white/65">
             {project.description}
           </p>
 
@@ -235,7 +245,7 @@ function ExpandedSlat({
           type="button"
           onClick={onClose}
           aria-label="Close"
-          className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-lg leading-none text-white/70 transition-colors hover:bg-white/10 hover:text-white"
+          className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-lg leading-none text-white/70 backdrop-blur-md transition-all duration-300 hover:scale-105 hover:border-white/30 hover:bg-white/10 hover:text-white"
         >
           ×
         </button>
@@ -252,7 +262,9 @@ function ExpandedSlat({
           <h3 className="text-3xl font-black tracking-tighter text-white sm:text-4xl">
             {project.name}
           </h3>
-          <p className="text-pretty text-white/70">{project.description}</p>
+          <p className="text-pretty leading-relaxed text-white/75">
+            {project.description}
+          </p>
 
           <div className="flex flex-wrap gap-2">
             {project.tags.map((tag) => (

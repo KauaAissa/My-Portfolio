@@ -87,7 +87,7 @@ export function Navbar({
             <a
               key={link.href}
               href={link.href}
-              className="rounded-full px-4 py-2 text-sm text-muted transition-colors hover:text-foreground"
+              className="rounded-full border border-transparent px-4 py-2 text-sm text-muted transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-border hover:bg-foreground/[0.05] hover:text-foreground hover:backdrop-blur-md"
             >
               {link.label}
             </a>
@@ -126,7 +126,7 @@ export function Navbar({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.35, ease: MENU_EASE }}
-            className="glass absolute inset-x-4 top-[76px] z-40 flex flex-col gap-2 rounded-3xl border border-border p-4 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)] md:hidden"
+            className="glass absolute inset-x-4 top-[76px] z-40 flex flex-col gap-2 rounded-3xl border border-border p-4 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.5)] backdrop-blur-md md:hidden"
           >
             {links.map((link, i) => (
               <motion.a

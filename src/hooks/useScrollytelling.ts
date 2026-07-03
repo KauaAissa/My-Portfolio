@@ -1,9 +1,25 @@
 "use client";
 
-import { useScroll, useTransform, type MotionValue } from "framer-motion";
+import {
+  useScroll,
+  useSpring,
+  useTransform,
+  type MotionValue,
+} from "framer-motion";
 import type { RefObject } from "react";
 
 type Offset = NonNullable<Parameters<typeof useScroll>[0]>["offset"];
+
+/**
+ * Critically-damped spring applied to raw scroll progress so camera moves
+ * glide organically instead of tracking every micro-jitter of the wheel.
+ */
+const CAMERA_SPRING = {
+  stiffness: 110,
+  damping: 26,
+  mass: 0.5,
+  restDelta: 0.0005,
+} as const;
 
 export interface Scrollytelling {
   /** Raw progress of the target through the viewport, 0 → 1. */
@@ -65,11 +81,14 @@ export function useCameraExit(
   offset: Offset = ["start start", "end start"],
 ): CameraShot {
   const { scrollYProgress } = useScroll({ target, offset });
+  // Smoothed progress drives the visuals; raw progress stays available for
+  // precise triggers (e.g. hiding the scroll hint).
+  const smooth = useSpring(scrollYProgress, CAMERA_SPRING);
 
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.65]);
-  const z = useTransform(scrollYProgress, [0, 1], [0, 500]);
-  const opacity = useTransform(scrollYProgress, [0, 0.55, 1], [1, 0.45, 0]);
-  const blur = useTransform(scrollYProgress, [0, 1], [0, 18]);
+  const scale = useTransform(smooth, [0, 1], [1, 1.65]);
+  const z = useTransform(smooth, [0, 1], [0, 500]);
+  const opacity = useTransform(smooth, [0, 0.55, 1], [1, 0.45, 0]);
+  const blur = useTransform(smooth, [0, 1], [0, 18]);
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
 
   return { progress: scrollYProgress, scale, z, opacity, blur, filter };
@@ -85,11 +104,12 @@ export function useCameraEnter(
   offset: Offset = ["start end", "start center"],
 ): CameraShot {
   const { scrollYProgress } = useScroll({ target, offset });
+  const smooth = useSpring(scrollYProgress, CAMERA_SPRING);
 
-  const scale = useTransform(scrollYProgress, [0, 1], [0.72, 1]);
-  const z = useTransform(scrollYProgress, [0, 1], [-600, 0]);
-  const opacity = useTransform(scrollYProgress, [0, 0.6, 1], [0, 0.85, 1]);
-  const blur = useTransform(scrollYProgress, [0, 1], [16, 0]);
+  const scale = useTransform(smooth, [0, 1], [0.72, 1]);
+  const z = useTransform(smooth, [0, 1], [-600, 0]);
+  const opacity = useTransform(smooth, [0, 0.6, 1], [0, 0.85, 1]);
+  const blur = useTransform(smooth, [0, 1], [16, 0]);
   const filter = useTransform(blur, (b) => `blur(${b}px)`);
 
   return { progress: scrollYProgress, scale, z, opacity, blur, filter };

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import { isLocale, type Locale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/get-dictionary";
-import { SphereStage } from "@/components/3d/SphereStage";
+import { SphereStageLazy } from "@/components/3d/SphereStageLazy";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Metrics } from "@/components/sections/Metrics";
@@ -42,7 +42,7 @@ export default async function Home({
 
   return (
     <>
-      <SphereStage scene={SPLINE_SCENE} />
+      <SphereStageLazy scene={SPLINE_SCENE} />
       <main className="relative z-10">
         <Hero dict={dict.hero} />
         <About dict={dict.about} />

@@ -33,7 +33,7 @@ export function Metrics({ dict }: { dict: Dictionary["metrics"] }) {
           <h2 className="mt-4 text-4xl font-bold tracking-tighter sm:text-5xl">
             {dict.title}
           </h2>
-          <p className="mt-4 text-muted">{dict.subtitle}</p>
+          <p className="mt-4 leading-relaxed text-muted">{dict.subtitle}</p>
         </div>
 
         <div className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-3xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
@@ -59,11 +59,13 @@ function MetricCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.7, ease: EASE, delay: index * 0.08 }}
-      className="group relative flex flex-col gap-2 bg-background p-8 transition-colors hover:bg-card"
+      className="group relative flex flex-col gap-2 bg-background/80 p-8 backdrop-blur-md transition-colors duration-500 hover:bg-card"
     >
       <Counter value={item.value} />
       <span className="text-sm font-medium">{item.label}</span>
-      <span className="text-sm text-muted">{item.description}</span>
+      <span className="text-sm leading-relaxed text-muted">
+        {item.description}
+      </span>
     </motion.div>
   );
 }

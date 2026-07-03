@@ -11,12 +11,21 @@ import {
 } from "framer-motion";
 import Spline from "@splinetool/react-spline";
 import type { Application, SPEObject } from "@splinetool/runtime";
-import { useTheme } from "next-themes";
 
 import { cn } from "@/lib/utils";
+import { AnimatedOrb } from "./AnimatedOrb";
 
 const DEG = Math.PI / 180;
 const REVEAL_EASE = [0.16, 1, 0.3, 1] as const;
+
+/**
+ * Frames rendered off-screen after `onLoad` before the scene is revealed.
+ * Spline fires `onLoad` when the scene graph is parsed - particle textures
+ * are still decoding and emitters haven't settled, so revealing immediately
+ * flashes a half-assembled scene. ~20 frames (≈330ms at 60fps) lets the
+ * runtime warm up while the canvas is still invisible.
+ */
+const WARMUP_FRAMES = 20;
 
 /* ------------------------------------------------------------------ *
  *  CALIBRATION
@@ -128,9 +137,7 @@ export function DynamicStageModel({
   onSplineLoad,
   className,
 }: DynamicStageModelProps) {
-  const { resolvedTheme } = useTheme();
   const reduceMotion = useReducedMotion();
-  const isDark = resolvedTheme !== "light";
 
   // Merge calibration once per render and expose it to the frame loop via ref.
   const cfg = React.useMemo<StageCalibration>(
@@ -144,12 +151,26 @@ export function DynamicStageModel({
   const idle = useMotionValue(0);
   const progress = scrollProgress ?? idle;
 
-  // Reveal the scene only once it is fully initialized, so the incomplete
-  // texture / uncalibrated frames never flash on screen (fixes the pop-in on
-  // first load, refresh and language change).
+  // --- Readiness pipeline -------------------------------------------------
+  // The Spline canvas mounts invisible and keeps rendering off-screen until
+  // it has been calibrated AND warmed up for WARMUP_FRAMES. Only then does
+  // the placeholder orb dissolve into the real scene. If the scene never
+  // loads (slow network / bad URL), the orb simply stays - graceful fallback.
   const [ready, setReady] = React.useState(false);
+  // Placeholder is unmounted only after its fade-out completes.
+  const [placeholderGone, setPlaceholderGone] = React.useState(false);
+  const disposedRef = React.useRef(false);
+
+  React.useEffect(() => {
+    disposedRef.current = false;
+    return () => {
+      disposedRef.current = true;
+    };
+  }, []);
+
   React.useEffect(() => {
     setReady(false);
+    setPlaceholderGone(false);
   }, [scene]);
 
   // --- Wrapper choreography (works for both Spline canvas and CSS orb) ---
@@ -273,9 +294,16 @@ export function DynamicStageModel({
       objectRef.current = found;
       onSplineLoad?.(app);
 
-      // Wait a couple of frames so textures finish decoding before the fade-in,
-      // avoiding the "Texture marked for update but image is incomplete" flash.
-      requestAnimationFrame(() => requestAnimationFrame(() => setReady(true)));
+      // Warm-up: let the runtime render real frames while the canvas is
+      // still at opacity 0, so textures finish decoding and the particle
+      // emitters stabilize before anything becomes visible.
+      let frames = 0;
+      const warmUp = () => {
+        if (disposedRef.current) return;
+        if (++frames >= WARMUP_FRAMES) setReady(true);
+        else requestAnimationFrame(warmUp);
+      };
+      requestAnimationFrame(warmUp);
     },
     [objectNames, onSplineLoad],
   );
@@ -299,99 +327,50 @@ export function DynamicStageModel({
       )}
     >
       {scene ? (
-        <React.Suspense fallback={null}>
+        <>
+          {/* Placeholder orb: visible from the very first paint (it matches
+              the lazy-loading fallback 1:1), then dissolves under the real
+              scene once it is warmed up. Unmounted after the fade-out. */}
+          {!placeholderGone && (
+            <motion.div
+              className="absolute inset-0"
+              initial={false}
+              animate={{ opacity: ready ? 0 : 1, scale: ready ? 1.05 : 1 }}
+              transition={{ duration: 0.8, ease: REVEAL_EASE }}
+              onAnimationComplete={() => {
+                if (ready) setPlaceholderGone(true);
+              }}
+            >
+              <AnimatedOrb />
+            </motion.div>
+          )}
+
+          {/* Real 3D scene: mounts invisible, warms up off-screen, then
+              crossfades in with a subtle settle-into-place scale. */}
           <motion.div
             className="h-full w-full"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: ready ? 1 : 0 }}
-            transition={{ duration: 0.9, ease: REVEAL_EASE }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={
+              ready
+                ? { opacity: 1, scale: 1 }
+                : { opacity: 0, scale: 0.96 }
+            }
+            transition={{ duration: 1.1, ease: REVEAL_EASE }}
           >
-            <Spline
-              scene={scene}
-              onLoad={handleLoad}
-              style={{ background: "transparent" }}
-              className="pointer-events-none !h-full !w-full !bg-transparent [&_canvas]:!bg-transparent"
-            />
+            <React.Suspense fallback={null}>
+              <Spline
+                scene={scene}
+                onLoad={handleLoad}
+                style={{ background: "transparent" }}
+                className="pointer-events-none !h-full !w-full !bg-transparent [&_canvas]:!bg-transparent"
+              />
+            </React.Suspense>
           </motion.div>
-        </React.Suspense>
+        </>
       ) : (
-        <AnimatedOrb isDark={isDark} reduceMotion={!!reduceMotion} />
+        <AnimatedOrb />
       )}
     </motion.div>
   );
 }
 
-function AnimatedOrb({
-  isDark,
-  reduceMotion,
-}: {
-  isDark: boolean;
-  reduceMotion: boolean;
-}) {
-  const core = isDark ? "#ffffff" : "#1d1d1f";
-  const haloA = isDark ? "rgba(120,120,255,0.35)" : "rgba(0,0,0,0.10)";
-  const haloB = isDark ? "rgba(255,120,200,0.28)" : "rgba(80,80,120,0.10)";
-
-  return (
-    <div className="relative flex h-full w-full items-center justify-center">
-      {/* Ambient glow */}
-      <motion.div
-        aria-hidden
-        animate={
-          reduceMotion
-            ? undefined
-            : { scale: [1, 1.08, 1], opacity: [0.6, 0.9, 0.6] }
-        }
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute h-[70%] w-[70%] rounded-full blur-3xl"
-        style={{
-          background: `radial-gradient(circle at 30% 30%, ${haloA}, transparent 60%), radial-gradient(circle at 70% 70%, ${haloB}, transparent 60%)`,
-        }}
-      />
-
-      {/* The sphere */}
-      <motion.div
-        animate={reduceMotion ? undefined : { y: [-10, 10, -10] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="relative h-[62%] w-[62%] rounded-full"
-        style={{
-          background: isDark
-            ? "radial-gradient(circle at 32% 28%, #2a2a2a 0%, #0d0d0d 55%, #000 100%)"
-            : "radial-gradient(circle at 32% 28%, #ffffff 0%, #dcdce0 55%, #b8b8bf 100%)",
-          boxShadow: isDark
-            ? "inset -30px -30px 60px rgba(0,0,0,0.8), inset 20px 20px 50px rgba(255,255,255,0.06), 0 40px 120px -20px rgba(0,0,0,0.9)"
-            : "inset -30px -30px 60px rgba(0,0,0,0.12), inset 20px 20px 50px rgba(255,255,255,0.9), 0 40px 120px -30px rgba(0,0,0,0.25)",
-        }}
-      >
-        {/* Specular highlight */}
-        <div
-          className="absolute left-[18%] top-[14%] h-[26%] w-[26%] rounded-full blur-md"
-          style={{
-            background: isDark
-              ? "radial-gradient(circle, rgba(255,255,255,0.55), transparent 70%)"
-              : "radial-gradient(circle, rgba(255,255,255,0.95), transparent 70%)",
-          }}
-        />
-        {/* Orbiting ring */}
-        <motion.div
-          animate={reduceMotion ? undefined : { rotate: 360 }}
-          transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
-          className="absolute inset-[-16%] rounded-full border"
-          style={{
-            borderColor: isDark
-              ? "rgba(255,255,255,0.10)"
-              : "rgba(0,0,0,0.10)",
-            transform: "rotateX(72deg)",
-          }}
-        />
-      </motion.div>
-
-      {/* Accent core dot */}
-      <div
-        aria-hidden
-        className="absolute h-2 w-2 rounded-full"
-        style={{ background: core, opacity: 0 }}
-      />
-    </div>
-  );
-}

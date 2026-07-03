@@ -44,12 +44,21 @@
 
 html {
   scroll-behavior: smooth;
+  /* Prevent horizontal panning on mobile caused by scaled/3D-transformed
+     sections (e.g. Hero camera dolly) extending past the viewport.
+     `clip` is used because, unlike `hidden`, it does not create a scroll
+     container - so `position: sticky` descendants keep working. */
+  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   overflow-x: hidden;
+  overflow-x: clip;
+  min-width: 0;
+  max-width: 100vw;
   font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
     Helvetica, Arial, sans-serif;
   /* Smooth global theme transition */

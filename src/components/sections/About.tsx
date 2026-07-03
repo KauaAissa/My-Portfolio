@@ -76,9 +76,12 @@ export function About({ dict }: { dict: Dictionary["about"] }) {
             {dict.title}
           </h2>
 
-          <div className="mt-6 flex flex-col gap-4 rounded-2xl border border-border bg-card/60 p-6 backdrop-blur-sm sm:p-7">
+          <div className="mt-6 flex flex-col gap-4 rounded-2xl border border-border bg-card/60 p-6 backdrop-blur-md transition-colors duration-500 hover:border-foreground/15 sm:p-7">
             {dict.paragraphs.map((paragraph, i) => (
-              <p key={i} className="text-pretty text-foreground/75 sm:text-lg">
+              <p
+                key={i}
+                className="text-pretty text-base leading-relaxed text-foreground/75 sm:text-lg"
+              >
                 {paragraph}
               </p>
             ))}
@@ -93,7 +96,7 @@ export function About({ dict }: { dict: Dictionary["about"] }) {
               {dict.skills.map((group) => (
                 <div
                   key={group.group}
-                  className="flex flex-col gap-4 rounded-2xl border border-border bg-card/60 p-5 backdrop-blur-sm transition-colors hover:border-foreground/20"
+                  className="flex flex-col gap-4 rounded-2xl border border-border bg-card/60 p-5 backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-[0_16px_40px_-24px_rgba(0,0,0,0.4)]"
                 >
                   <span className="text-sm font-semibold tracking-tight">
                     {group.group}
@@ -122,7 +125,7 @@ export function About({ dict }: { dict: Dictionary["about"] }) {
               {dict.languages.map((language) => (
                 <span
                   key={language}
-                  className="rounded-xl border border-border bg-card/60 px-4 py-3 text-sm font-medium text-foreground/85 backdrop-blur-sm transition-colors hover:border-foreground/20"
+                  className="rounded-xl border border-border bg-card/60 px-4 py-3 text-sm font-medium leading-relaxed text-foreground/85 backdrop-blur-md transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 hover:border-foreground/20"
                 >
                   {language}
                 </span>

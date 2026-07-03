@@ -47,7 +47,7 @@ export function Footer({
         <h2 className="max-w-3xl text-balance text-4xl font-semibold leading-[1.1] tracking-tight sm:text-6xl">
           {dict.title}
         </h2>
-        <p className="max-w-md text-muted">{dict.subtitle}</p>
+        <p className="max-w-md leading-relaxed text-muted">{dict.subtitle}</p>
         <Button size="lg" asChild>
           <a href={`mailto:${dict.email}`}>
             {dict.cta}
