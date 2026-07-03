@@ -2,10 +2,11 @@
 
 import * as React from "react";
 import { motion, useTransform } from "framer-motion";
-import { ArrowDown, ArrowUpRight, ExternalLink } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 
 import type { Dictionary } from "@/types/dictionary";
 import { Button } from "@/components/ui/button";
+import { GitHubIcon } from "@/components/shared/BrandIcons";
 import { SITE } from "@/lib/site";
 import { useCameraExit } from "@/hooks/useScrollytelling";
 
@@ -73,7 +74,7 @@ export function Hero({ dict }: { dict: Dictionary["hero"] }) {
           </Button>
           <Button size="lg" variant="outline" asChild>
             <a href={SITE.github} target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="size-4" />
+              <GitHubIcon className="size-4" />
               {dict.secondaryCta}
             </a>
           </Button>

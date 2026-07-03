@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowUpRight, AtSign, ExternalLink } from "lucide-react";
+import { ArrowUpRight, AtSign } from "lucide-react";
 
 import type { Dictionary } from "@/types/dictionary";
 import { Button } from "@/components/ui/button";
+import { GitHubIcon, LinkedInIcon } from "@/components/shared/BrandIcons";
 import { MagneticAvatar } from "@/components/shared/MagneticAvatar";
 import { SITE } from "@/lib/site";
 import logo from "@/assets/img/blackcat-logo.png";
@@ -20,8 +21,8 @@ export function Footer({
   nav: Dictionary["nav"];
 }) {
   const socials = [
-    { label: "GitHub", href: SITE.github, Icon: ExternalLink },
-    { label: "LinkedIn", href: SITE.linkedin, Icon: ExternalLink },
+    { label: "GitHub", href: SITE.github, Icon: GitHubIcon },
+    { label: "LinkedIn", href: SITE.linkedin, Icon: LinkedInIcon },
     { label: "Email", href: `mailto:${dict.email}`, Icon: AtSign },
   ];
 

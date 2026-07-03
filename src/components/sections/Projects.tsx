@@ -225,8 +225,18 @@ function ExpandedSlat({
   viewLabel: string;
   onClose: () => void;
 }) {
+  const closeRef = React.useRef<HTMLButtonElement>(null);
+
+  // Move keyboard focus into the dialog when it opens.
+  React.useEffect(() => {
+    closeRef.current?.focus();
+  }, []);
+
   return (
     <motion.div
+      role="dialog"
+      aria-modal="true"
+      aria-label={project.name}
       className="fixed inset-0 z-[60] flex items-center justify-center p-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -242,6 +252,7 @@ function ExpandedSlat({
         className="relative z-10 max-h-[90vh] w-full max-w-2xl overflow-y-auto overflow-x-hidden rounded-[28px] border border-white/10 p-6 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)] sm:p-10"
       >
         <button
+          ref={closeRef}
           type="button"
           onClick={onClose}
           aria-label="Close"

@@ -80,7 +80,7 @@ export const DEFAULT_CALIBRATION: StageCalibration = {
   offsetY: 0,
   offsetZ: 0,
   actScale: [1, 1.06, 0.96, 0.72],
-  actOpacity: [1, 1, 0.35, 0],
+  actOpacity: [1, 1, 0, 0],
   recedeZ: -420,
 };
 
@@ -177,7 +177,7 @@ export function DynamicStageModel({
   // --- Wrapper choreography (works for both Spline canvas and CSS orb) ---
   const scale = useTransform(progress, [0, 0.33, 0.66, 1], cfg.actScale);
   const z = useTransform(progress, [0, 0.66, 1], [0, 0, cfg.recedeZ]);
-  const opacity = useTransform(progress, [0, 0.6, 0.85, 1], cfg.actOpacity);
+  const opacity = useTransform(progress, [0, 0.48, 0.70, 1], cfg.actOpacity);
 
   // Continuous rotation, updated every frame (no scroll vibration).
   const spin = useMotionValue(0); // degrees (used by the CSS orb wrapper)

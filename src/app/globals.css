@@ -3,7 +3,25 @@
 /* Enable class-based dark mode (driven by next-themes) */
 @custom-variant dark (&:is(.dark *));
 
-:root {
+:root,
+.dark {
+  /* Dark Mode (DEFAULT) - Vercel black.
+     Dark tokens live on :root so the very first paint — before the
+     next-themes script applies the theme class — is already dark,
+     preventing any white flash of unstyled/light content (FOUC). */
+  --background: #0a0a0a;
+  --foreground: #ffffff;
+  --muted: #a3a3a3;
+  --accent: #ffffff;
+  --card: #111111;
+  --border: rgba(255, 255, 255, 0.08);
+  --glass: rgba(10, 10, 10, 0.5);
+  /* Tell the browser the native canvas (scrollbars, overscroll area,
+     form controls) is dark from the very first frame. */
+  color-scheme: dark;
+}
+
+.light {
   /* Light Mode - Apple gray (tuned for strong contrast on white) */
   --background: #f5f5f7;
   --foreground: #1d1d1f;
@@ -14,17 +32,7 @@
   /* Stronger, clearly visible dividers. */
   --border: rgba(0, 0, 0, 0.14);
   --glass: rgba(255, 255, 255, 0.72);
-}
-
-.dark {
-  /* Dark Mode (default) - Vercel black */
-  --background: #0a0a0a;
-  --foreground: #ffffff;
-  --muted: #a3a3a3;
-  --accent: #ffffff;
-  --card: #111111;
-  --border: rgba(255, 255, 255, 0.08);
-  --glass: rgba(10, 10, 10, 0.5);
+  color-scheme: light;
 }
 
 @theme inline {
@@ -43,7 +51,12 @@
 }
 
 html {
+  /* Paint the root element too, so overscroll/rubber-banding never
+     reveals a white browser canvas behind the body. */
+  background: var(--background);
   scroll-behavior: smooth;
+  /* Keep anchored sections clear of the fixed, floating navbar. */
+  scroll-padding-top: 6rem;
   /* Prevent horizontal panning on mobile caused by scaled/3D-transformed
      sections (e.g. Hero camera dolly) extending past the viewport.
      `clip` is used because, unlike `hidden`, it does not create a scroll
@@ -72,6 +85,13 @@ body {
 ::selection {
   background: var(--foreground);
   color: var(--background);
+}
+
+/* Consistent, visible keyboard focus for all interactive elements */
+:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 /* Minimal, premium scrollbar */
