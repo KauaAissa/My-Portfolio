@@ -3,8 +3,7 @@
 import dynamic from "next/dynamic";
 
 import { cn } from "@/lib/utils";
-import { AnimatedOrb } from "./AnimatedOrb";
-import { StageShell, STAGE_FRAME_CLASS } from "./StageShell";
+import { StageGlow, StageShell, STAGE_FRAME_CLASS } from "./StageShell";
 
 /**
  * Lightweight stand-in rendered while the Spline chunk downloads. It uses
@@ -20,7 +19,7 @@ function StagePlaceholder() {
           STAGE_FRAME_CLASS,
         )}
       >
-        <AnimatedOrb />
+        <StageGlow />
       </div>
     </StageShell>
   );

@@ -6,6 +6,7 @@ import { ArrowUpRight, AtSign, ExternalLink } from "lucide-react";
 
 import type { Dictionary } from "@/types/dictionary";
 import { Button } from "@/components/ui/button";
+import { MagneticAvatar } from "@/components/shared/MagneticAvatar";
 import { SITE } from "@/lib/site";
 import logo from "@/assets/img/blackcat-logo.png";
 
@@ -36,25 +37,28 @@ export function Footer({
       id="contact"
       className="relative mx-auto w-full max-w-6xl px-6 pb-12 pt-24 md:pt-44"
     >
-      {/* CTA */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: EASE }}
-        className="flex flex-col items-start gap-8 border-b border-border pb-20"
-      >
-        <h2 className="max-w-3xl text-balance text-4xl font-semibold leading-[1.1] tracking-tight sm:text-6xl">
-          {dict.title}
-        </h2>
-        <p className="max-w-md leading-relaxed text-muted">{dict.subtitle}</p>
-        <Button size="lg" asChild>
-          <a href={`mailto:${dict.email}`}>
-            {dict.cta}
-            <ArrowUpRight className="size-4" />
-          </a>
-        </Button>
-      </motion.div>
+      {/* CTA - avatar on the left, pitch on the right */}
+      <div className="grid grid-cols-1 items-center gap-12 border-b border-border pb-20 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-16">
+        <MagneticAvatar alt={SITE.name} />
+
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: EASE, delay: 0.15 }}
+          className="flex flex-col items-start gap-8"
+        >
+          <h2 className="max-w-3xl text-balance text-4xl font-semibold leading-[1.1] tracking-tight sm:text-6xl">
+            {dict.title}
+          </h2>
+          <Button size="lg" asChild>
+            <a href={`mailto:${dict.email}`}>
+              {dict.cta}
+              <ArrowUpRight className="size-4" />
+            </a>
+          </Button>
+        </motion.div>
+      </div>
 
       {/* Meta */}
       <div className="grid grid-cols-2 gap-8 py-12 md:grid-cols-4">

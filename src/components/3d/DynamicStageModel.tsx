@@ -14,6 +14,7 @@ import type { Application, SPEObject } from "@splinetool/runtime";
 
 import { cn } from "@/lib/utils";
 import { AnimatedOrb } from "./AnimatedOrb";
+import { StageGlow } from "./StageShell";
 
 const DEG = Math.PI / 180;
 const REVEAL_EASE = [0.16, 1, 0.3, 1] as const;
@@ -328,20 +329,20 @@ export function DynamicStageModel({
     >
       {scene ? (
         <>
-          {/* Placeholder orb: visible from the very first paint (it matches
-              the lazy-loading fallback 1:1), then dissolves under the real
-              scene once it is warmed up. Unmounted after the fade-out. */}
+          {/* Discreet loading presence: a shapeless pool of light that
+              matches the lazy-loading fallback 1:1, then dissolves as the
+              particle scene materializes. Unmounted after the fade-out. */}
           {!placeholderGone && (
             <motion.div
               className="absolute inset-0"
               initial={false}
-              animate={{ opacity: ready ? 0 : 1, scale: ready ? 1.05 : 1 }}
-              transition={{ duration: 0.8, ease: REVEAL_EASE }}
+              animate={{ opacity: ready ? 0 : 1 }}
+              transition={{ duration: 1, ease: REVEAL_EASE }}
               onAnimationComplete={() => {
                 if (ready) setPlaceholderGone(true);
               }}
             >
-              <AnimatedOrb />
+              <StageGlow />
             </motion.div>
           )}
 
